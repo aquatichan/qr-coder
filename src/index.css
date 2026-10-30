@@ -1,0 +1,353 @@
+:root {
+  --bg: #000000;
+  --text: #ffffff;
+  --muted: #999999;
+  --line: #333333;
+  --line-2: #666666;
+  --choice: #5f8bff;
+  --choice-soft: color-mix(in srgb, var(--choice) 60%, transparent);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+body {
+  min-height: 100vh;
+  color: var(--text);
+  font-family: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+input {
+  accent-color: var(--choice);
+}
+
+:focus-visible {
+  outline: 2px solid var(--choice-soft);
+  outline-offset: 2px;
+}
+
+/* ---------- background effects (Galaxy.jsx, GlowCursor.jsx) ---------- */
+
+.galaxy-container.backdrop,
+.glow-cursor.glow-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.galaxy-container.backdrop {
+  z-index: 0;
+}
+
+.glow-cursor.glow-overlay {
+  z-index: 3;
+}
+
+/* ---------- layout ---------- */
+
+.studio {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr) 340px;
+  gap: 16px;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.stage {
+  position: sticky;
+  top: 16px;
+  align-self: start;
+  height: calc(100vh - 32px);
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- panels ---------- */
+
+.panel,
+.preview {
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid var(--line);
+}
+
+.panel {
+  padding: 16px;
+}
+
+.panel h2 {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.panel h2::before {
+  content: '> ';
+  color: var(--choice);
+}
+
+.stack {
+  display: grid;
+  gap: 14px;
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ---------- inputs ---------- */
+
+.field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.field input:not([type='range']) {
+  width: 100%;
+  padding: 9px 10px;
+  color: var(--text);
+  font-size: 14px;
+  background: var(--bg);
+  border: 1px solid var(--line-2);
+}
+
+.field input:not([type='range']):focus {
+  border-color: var(--choice-soft);
+  outline: none;
+}
+
+.field input::placeholder {
+  color: var(--line-2);
+}
+
+input[type='range'] {
+  width: 100%;
+  margin: 0;
+}
+
+.range-label {
+  display: flex;
+  justify-content: space-between;
+}
+
+.range-label b {
+  color: var(--text);
+  font-weight: 400;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.check input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.color-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.color-field input {
+  width: 44px;
+  height: 36px;
+  padding: 2px;
+  background: var(--bg);
+  border: 1px solid var(--line-2);
+  cursor: pointer;
+}
+
+.color-field span {
+  flex: 1;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.color-field code {
+  font-family: inherit;
+  text-transform: uppercase;
+}
+
+/* ---------- buttons ---------- */
+
+.choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.choice button,
+.export-buttons button,
+.tile {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.choice button:hover,
+.export-buttons button:not(:disabled):hover,
+.tile:hover {
+  color: var(--text);
+}
+
+.choice button.on,
+.tile.on {
+  border-color: var(--choice);
+  color: var(--text);
+}
+
+.choice button {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+.choice button.on .icon {
+  color: var(--choice);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.tile {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 8px 2px 6px;
+  font-size: 10px;
+}
+
+.tile span {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tile img,
+.tile-empty {
+  display: block;
+  width: 70%;
+  aspect-ratio: 1;
+}
+
+.tile.on {
+  box-shadow: 0 0 12px var(--choice);
+}
+
+.export-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.export-buttons button {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 12px 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 14px;
+}
+
+.export-buttons button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- preview ---------- */
+
+.preview {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: min(600px, calc(100vh - 64px));
+  aspect-ratio: 1;
+  padding: 24px;
+}
+
+.qr {
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.2s;
+}
+
+.qr svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.preview-message {
+  position: absolute;
+  margin: 0;
+  padding: 24px;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 420px) {
+  .two-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
